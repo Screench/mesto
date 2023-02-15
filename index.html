@@ -21,9 +21,9 @@
         <div class="profile__avatar"></div>
 
         <div class="profile__info">
-          <div class="profile__main">
+          <div class="profile__title-wrapper">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
-            <img src="./images/edit.svg" class="profile__edit">
+            <img src="./images/edit.svg" class="profile__edit-btn">
           </div>
           <p class="profile__caption">Исследователь океана</p>
         </div>
@@ -76,7 +76,7 @@
       <div class="element">
         <img src="./images/6.png" alt="Шестое изображение" class="element__image">
         <div class="element__caption">
-          <h2 class="element__title">Карачаевск</h2>
+          <h2 class="element__title">Карачаево-Черкессия</h2>
           <img class="element__heart" src="./images/heartoff.svg">
         </div>
       </div>
@@ -87,11 +87,63 @@
     <p class="footer__copyright">&copy; 2023 Mesto Russia</p>
   </footer>
 
-  <div class="popup__overlay">
-    <div class="popup">
+  <div class="popup">
+    <div class="popup__container">
+      <button type="button" class="popup__close-btn"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
+      <input name="username" class="popup__input popup__input_name" id="username" placeholder="Имя" minlength="2"
+        maxlength="20" required>
+      <input name="occupation" class="popup__input popup__input_occupation" id="occupation" placeholder="Род занятий"
+        minlength="2" maxlength="30" required>
+      <button type="submit" class="popup__submit-btn">Сохранить</button>
     </div>
   </div>
+  <script>
+    let editButton = document.querySelector('.profile__edit-btn');
+    editButton.addEventListener('click', popupToggle);
+
+    let closeButton = document.querySelector('.popup__close-btn');
+    closeButton.addEventListener('click', popupToggle);
+
+    let submitButton = document.querySelector('.popup__submit-btn');
+    submitButton.addEventListener('click', popupSaveChanges);
+
+
+    function popupToggle() {
+      let popup = document.querySelector('.popup');
+      popup.classList.toggle('popup__opened');
+    }
+
+
+    let inputUserName = document.querySelector('.popup__input_name');
+    let existingUserName = document.querySelector('.profile__title');
+    inputUserName.value = existingUserName.textContent;
+
+    let inputOccupation = document.querySelector('.popup__input_occupation');
+    let existingOccupation = document.querySelector('.profile__caption');
+    inputOccupation.value = existingOccupation.textContent;
+
+    function popupSaveChanges() {
+      let inputUserName = document.querySelector('.popup__input_name');
+      let existingUserName = document.querySelector('.profile__title');
+      existingUserName.textContent = inputUserName.value;
+
+      let inputOccupation = document.querySelector('.popup__input_occupation');
+      let existingOccupation = document.querySelector('.profile__caption');
+      existingOccupation.textContent = inputOccupation.value;
+
+      popupToggle();
+    }
+
+
+
+
+
+
+
+
+
+  </script>
 </body>
 
 
