@@ -11,12 +11,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
 }
 
 @media (max-width: 1024px) {
   .profile__title {
-    max-width: 70%;
+    max-width: 50vw;
   }
 }
 
@@ -36,5 +35,7 @@
     margin-right: 10px;
     margin-bottom: 6px;
     max-width: 230px;
+    padding-right: 0;
+    padding-bottom: 0;
   }
 }

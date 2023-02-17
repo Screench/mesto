@@ -2,9 +2,4 @@
   background-color: #000;
   margin: 0 auto;
   max-width: 880px;
-  padding: 0 19px;
-}
-
-@media (max-width: 880px) {
-  .page {}
 }
