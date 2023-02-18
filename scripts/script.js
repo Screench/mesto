@@ -19,7 +19,8 @@ function popupToggle() {
 // Находим форму в DOM
 let formElement = document.querySelector('form');
 
-//По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML
+//По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML. 
+//Реализовано с помощью поочередного вызова соответствующих функций
 function editButtonFunctions() {
   popupToggle();
   updateInputsFromForm();
