@@ -7,7 +7,16 @@
   padding: 51px 0 68px;
 }
 
-@media (max-width: 315px) {
+@media (max-width: 1024px) {
+  .elements {
+    padding-left: 19px;
+    padding-right: 19px;
+    padding-top: 36px;
+    padding-bottom: 47px;
+  }
+}
+
+@media (max-width: 310px) {
   .elements {
     grid-template-columns: 1fr;
     gap: 19px;

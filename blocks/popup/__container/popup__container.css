@@ -7,3 +7,14 @@
   padding: 36px;
   box-sizing: border-box;
 }
+
+@media (max-width: 640px) {
+  .popup__container {
+    min-width: 282px;
+    min-height: 322px;
+    padding-left: 22px;
+    padding-right: 22px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+}
