@@ -1,25 +1,26 @@
-//Кнопка Редактировать и слушатель к ней
+//Кнопка Редактировать
 let editButton = document.querySelector('.profile__edit-btn');
-editButton.addEventListener('click', editButtonFunctions);
-
-//Кнопка Закрыть и слушатель к ней
+//Кнопка Закрыть
 let closeButton = document.querySelector('.popup__close-btn');
-closeButton.addEventListener('click', popupToggle);
-
-//Кнопка Сохранить и слушатель к ней
+//Кнопка Сохранить
 let submitButton = document.querySelector('.popup__submit-btn');
-submitButton.addEventListener('submit', handleFormSubmit);
-
+//Находим попап в DOM
 let popup = document.querySelector('.popup');
 // Находим поля формы в DOM
 let nameInput = document.querySelector('.popup__input_field_name');
 let jobInput = document.querySelector('.popup__input_field_occupation');
-// Выберите элементы, куда должны быть вставлены значения полей
+// Находим элементы, куда должны быть вставлены значения полей
 let existingUserName = document.querySelector('.profile__title');
 let existingOccupation = document.querySelector('.profile__occupation');
-
 // Находим форму в DOM
 let formElement = document.querySelector('form');
+
+//Слушатель к кнопке редактировать
+editButton.addEventListener('click', editButtonFunctions);
+//Слушатель к кнопке закрыть
+closeButton.addEventListener('click', popupToggle);
+//Слушатель к кнопке сохранить
+submitButton.addEventListener('submit', handleFormSubmit);
 
 //Открытие и закрытие Попапа
 function popupToggle() {
@@ -42,7 +43,7 @@ function updateInputsFromForm() {
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
 function handleFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы. 
-  
+
   // Вставьте новые значения с помощью textContent
   existingUserName.textContent = nameInput.value;
   existingOccupation.textContent = jobInput.value;

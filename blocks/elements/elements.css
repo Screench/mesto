@@ -1,17 +1,10 @@
 .elements {
-  /* max-width: 880px;
+  max-width: 880px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+  grid-template-columns: repeat(auto-fit, 282px);
   justify-content: center;
   gap: 20px 17px;
-  padding: 51px 0 68px; */
-  gap: 20px 17px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit,282px);
-    justify-content: center;
-    /* margin: 0 auto; */
-    max-width: 880px;
-    padding: 50px 0 66px;
+  padding: 51px 0 68px;
 }
 
 @media (max-width: 1024px) {
@@ -19,7 +12,7 @@
     padding-left: 19px;
     padding-right: 19px;
     padding-top: 36px;
-    padding-bottom: 47px;
+    padding-bottom: 50px;
   }
 }
 
