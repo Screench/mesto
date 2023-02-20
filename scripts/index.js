@@ -1,3 +1,4 @@
+//¯\_(ツ)_/¯ Случайно отправил недоделанную работу на ревью, нажав крайний enter
 //Кнопка Редактировать
 let editButton = document.querySelector('.profile__edit-btn');
 //Кнопка Закрыть
@@ -24,7 +25,7 @@ submitButton.addEventListener('submit', handleFormSubmit);
 
 //Открытие и закрытие Попапа
 function popupToggle() {
-  popup.classList.toggle('popup__opened');
+  popup.classList.toggle('popup_opened');
 }
 
 //По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML. 

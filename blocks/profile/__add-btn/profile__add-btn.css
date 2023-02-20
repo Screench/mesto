@@ -4,11 +4,12 @@
   height: 50px;
   transition: .3s ease;
   background-image: url(../../../images/add.svg);
-  background-size: 20px;
+  background-size: 22px;
   background-position: center;
   background-repeat: no-repeat;
   background-color: transparent;
   cursor: pointer;
+  border-radius: 2px;
 }
 
 .profile__add-btn:hover {

@@ -2,7 +2,7 @@
   padding: 45px 0 40px;
   display: flex;
   justify-content: flex-start;
-  border-bottom: #545454 1px solid;
+  border-bottom: 1px solid rgba(54,54,54,.7);
 }
 
 @media (max-width: 1024px) {

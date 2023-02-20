@@ -1,6 +1,12 @@
-@media (max-width: 480px) {
   .header__logo {
-    padding-left: 8px;
-    width: 104px;
+    width: 142px;
+    height: 33px;
   }
-}
+
+  @media (max-width: 480px) {
+    .header__logo {
+      padding-left: 8px;
+      width: 104px;
+      height: 24px;
+    }
+  }
