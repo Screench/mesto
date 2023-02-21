@@ -1,10 +1,7 @@
-//¯\_(ツ)_/¯ Случайно отправил недоделанную работу на ревью, нажав крайний enter
 //Кнопка Редактировать
 let editButton = document.querySelector('.profile__edit-btn');
 //Кнопка Закрыть
 let closeButton = document.querySelector('.popup__close-btn');
-//Кнопка Сохранить
-let submitButton = document.querySelector('.popup__submit-btn');
 //Находим попап в DOM
 let popup = document.querySelector('.popup');
 // Находим поля формы в DOM
@@ -20,8 +17,6 @@ let formElement = document.querySelector('form');
 editButton.addEventListener('click', editButtonFunctions);
 //Слушатель к кнопке закрыть
 closeButton.addEventListener('click', popupToggle);
-//Слушатель к кнопке сохранить
-submitButton.addEventListener('submit', handleFormSubmit);
 
 //Открытие и закрытие Попапа
 function popupToggle() {

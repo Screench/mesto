@@ -17,7 +17,7 @@
 }
 
 .popup__submit-btn:hover {
-  background: rgba(00, 00, 00, .8);
+  background: rgba(0, 0, 0, .8);
 }
 
 @media (max-width: 640px) {
