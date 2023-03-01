@@ -142,7 +142,7 @@ function handleFormSubmitPlace(evt) {
 
 ///////////////////////////4. Лайк карточки///////////////////////////
 function handleLikeButtonClick(event) {
-  const likeBtn = event.target;
+  // const likeBtn = event.target;
   event.target.classList.toggle('element__heart-btn_active');
 };
 
@@ -156,9 +156,21 @@ function handleDeleteButtonClick(event) {
 
 
 ///////////////////////////6. Открытие попапа с картинкой///////////////////////////
-// function handleImageClick(event) {
+const popupImage = document.querySelector('.popup_type_image');
+const enlargeImage = document.querySelector('.popup__image');
+function handleImageClick(event) {
+const bigImage = event.target;
+enlargeImage.alt = bigImage.alt;
+enlargeImage.src = bigImage.src;
+popupImageToggle();
+}
 
-// }
+function popupImageToggle() {
+  popupImage.classList.toggle('popup_opened');
+}
+
+const closeButtonOnPopupImage = document.querySelector('.popup_type_image .popup__close-btn');
+closeButtonOnPopupImage.addEventListener('click', popupImageToggle);
 
 
 ///////////////////////////7. Плавное открытие и закрытие попапов///////////////////////////
