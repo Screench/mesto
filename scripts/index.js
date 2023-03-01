@@ -1,4 +1,4 @@
-///////////////////////////Проектная работа №4 (Попап редактирование профиля)
+///////////////////////////Проектная работа №4 (Попап редактирование профиля)///////////////////////////
 let editButton = document.querySelector('.profile__edit-btn');      //Кнопка Редактировать
 let closeButton = document.querySelector('.popup__close-btn');                          //Кнопка Закрыть
 let popupProfile = document.querySelector('.popup_type_profile');                       //Находим попап профиля в DOM
@@ -49,8 +49,8 @@ formElement.addEventListener('submit', handleFormSubmit);
 
 
 
-///////////////////////////ПРОЕКТНАЯ РАБОТА №5. По заданиям:
-///////////////////////////1. Шесть карточек из "коробки"
+///////////////////////////ПРОЕКТНАЯ РАБОТА №5. По заданиям:///////////////////////////
+///////////////////////////1. Шесть карточек из "коробки"///////////////////////////
 const initialCards = [
   {
     name: 'Архыз',
@@ -90,6 +90,7 @@ function createCard(card) {
   const cardImage = newCard.querySelector('.element__image')
   const deleteButton = newCard.querySelector('.element__trash-btn');
   const likeButton = newCard.querySelector('.element__heart-btn');
+  cardImage.addEventListener('click', handleImageClick);
   likeButton.addEventListener('click', handleLikeButtonClick);
   deleteButton.addEventListener('click', handleDeleteButtonClick);
   cardHeading.textContent = card.name;
@@ -100,7 +101,7 @@ function createCard(card) {
 
 
 
-///////////////////////////2. Форма добавления карточки
+///////////////////////////2. Форма добавления карточки///////////////////////////
 
 let addButton = document.querySelector('.profile__add-btn');        //Кнопка Добавить
 let popupPlace = document.querySelector('.popup_type_place');       //Находим попап новой карточки в DOM
@@ -120,14 +121,13 @@ function popupPlaceToggle() {
 }
 
 
-///////////////////////////3. Добавление карточки
+///////////////////////////3. Добавление карточки///////////////////////////
 
 formPlace.addEventListener('submit', handleFormSubmitPlace);    // Прикрепляем обработчик к форме новой карточки:
 
 // Обработчик «отправки» формы новой карточки
 function handleFormSubmitPlace(evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы. 
-
+  evt.preventDefault(); 
   const form = evt.target;
   const name = form.querySelector('.popup__input_field_place').value;
   const link = form.querySelector('.popup__input_field_link').value;
@@ -136,20 +136,18 @@ function handleFormSubmitPlace(evt) {
     link: link,
   }
   createCard(card);
-
-  popupPlaceToggle();   //Закрытие окна
-
+  popupPlaceToggle(); 
 }
 
 
-///////////////////////////4. Лайк карточки
+///////////////////////////4. Лайк карточки///////////////////////////
 function handleLikeButtonClick(event) {
   const likeBtn = event.target;
   event.target.classList.toggle('element__heart-btn_active');
 };
 
 
-///////////////////////////5. Удаление карточки
+///////////////////////////5. Удаление карточки///////////////////////////
 function handleDeleteButtonClick(event) {
   const trashBtn = event.target;
   const element = trashBtn.closest('.element');
@@ -157,7 +155,10 @@ function handleDeleteButtonClick(event) {
 }
 
 
-///////////////////////////6. Открытие попапа с картинкой
+///////////////////////////6. Открытие попапа с картинкой///////////////////////////
+// function handleImageClick(event) {
+
+// }
 
 
-///////////////////////////7. Плавное открытие и закрытие попапов
+///////////////////////////7. Плавное открытие и закрытие попапов///////////////////////////
