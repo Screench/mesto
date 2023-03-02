@@ -96,6 +96,7 @@ function createCard(card) {
   cardHeading.textContent = card.name;
   cardImage.setAttribute('src', card.link);
   cardImage.setAttribute('alt', `Изображение ${card.name}`);
+  cardImage.setAttribute('name', card.name);
   elements.prepend(newCard);
 };
 
@@ -160,6 +161,8 @@ const popupImage = document.querySelector('.popup_type_image');
 const enlargeImage = document.querySelector('.popup__image');
 function handleImageClick(event) {
 const bigImage = event.target;
+const caption = document.querySelector('.popup__caption');
+caption.textContent = bigImage.name; ////Подпись к картинке попапа
 enlargeImage.alt = bigImage.alt;
 enlargeImage.src = bigImage.src;
 popupImageToggle();
@@ -174,3 +177,4 @@ closeButtonOnPopupImage.addEventListener('click', popupImageToggle);
 
 
 ///////////////////////////7. Плавное открытие и закрытие попапов///////////////////////////
+//Реализовано в CSS
