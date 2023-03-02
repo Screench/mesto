@@ -1,18 +1,18 @@
 ///////////////////////////Проектная работа №4 (Попап редактирование профиля)///////////////////////////
-let editButton = document.querySelector('.profile__edit-btn');      //Кнопка Редактировать
-let closeButton = document.querySelector('.popup__close-btn');                          //Кнопка Закрыть
-let popupProfile = document.querySelector('.popup_type_profile');                       //Находим попап профиля в DOM
+const editButton = document.querySelector('.profile__edit-btn');      //Кнопка Редактировать
+const closeButton = document.querySelector('.popup__close-btn');                          //Кнопка Закрыть
+const popupProfile = document.querySelector('.popup_type_profile');                       //Находим попап профиля в DOM
 
 // Находим поля формы профиля в DOM
-let nameInput = document.querySelector('.popup__input_field_name');
-let jobInput = document.querySelector('.popup__input_field_occupation');
-let placeInput = document.querySelector('.popup__input_field_name');
+const nameInput = document.querySelector('.popup__input_field_name');
+const jobInput = document.querySelector('.popup__input_field_occupation');
+const placeInput = document.querySelector('.popup__input_field_name');
 
 // Находим элементы, куда должны быть вставлены значения полей
-let existingUserName = document.querySelector('.profile__title');
-let existingOccupation = document.querySelector('.profile__occupation');
+const existingUserName = document.querySelector('.profile__title');
+const existingOccupation = document.querySelector('.profile__occupation');
 
-let formElement = document.querySelector('.profile-form');    // Находим форму профиля в DOM
+const formElement = document.querySelector('.profile-form');    // Находим форму профиля в DOM
 editButton.addEventListener('click', editButtonFunctions);    //Слушатель к кнопке редактировать
 closeButton.addEventListener('click', popupProfileToggle);    //Слушатель к кнопке закрыть на профиле
 
@@ -78,7 +78,7 @@ const initialCards = [
   }
 ];
 
-initialCards.reverse();
+initialCards.reverse(); //обращаем изначальный массив для его корректного отображения с помощью prepend.
 
 const elements = document.querySelector('.elements');
 
@@ -104,10 +104,10 @@ function createCard(card) {
 
 ///////////////////////////2. Форма добавления карточки///////////////////////////
 
-let addButton = document.querySelector('.profile__add-btn');        //Кнопка Добавить
-let popupPlace = document.querySelector('.popup_type_place');       //Находим попап новой карточки в DOM
-let closeButtonOnAddPlace = document.querySelector('.popup_type_place .popup__close-btn'); //Находим кнопку закрытия попапа новой карточки
-let formPlace = document.querySelector('.place-form');              // Находим форму новой карточки в DOM
+const addButton = document.querySelector('.profile__add-btn');        //Кнопка Добавить
+const popupPlace = document.querySelector('.popup_type_place');       //Находим попап новой карточки в DOM
+const closeButtonOnAddPlace = document.querySelector('.popup_type_place .popup__close-btn'); //Находим кнопку закрытия попапа новой карточки
+const formPlace = document.querySelector('.place-form');              // Находим форму новой карточки в DOM
 addButton.addEventListener('click', addButtonFunctions);            //Слушатель к кнопке добавить карточку
 closeButtonOnAddPlace.addEventListener('click', popupPlaceToggle);  //Слушатель к кнопке закрыть на добавлении карточки
 
