@@ -1,6 +1,6 @@
 ///////////////////////////Проектная работа №4 (Попап редактирование профиля)///////////////////////////
 const editButton = document.querySelector('.profile__edit-btn');      //Кнопка Редактировать
-const closeButton = document.querySelector('.popup__close-btn');                          //Кнопка Закрыть
+const closeButtonOnProfileEdit = document.querySelector('.popup__close-btn');                          //Кнопка Закрыть
 const popupProfile = document.querySelector('.popup_type_profile');                       //Находим попап профиля в DOM
 
 // Находим поля формы профиля в DOM
@@ -12,9 +12,9 @@ const placeInput = document.querySelector('.popup__input_field_name');
 const existingUserName = document.querySelector('.profile__title');
 const existingOccupation = document.querySelector('.profile__occupation');
 
-const formElement = document.querySelector('.profile-form');    // Находим форму профиля в DOM
+const formProfile = document.querySelector('.profile-form');    // Находим форму профиля в DOM
 editButton.addEventListener('click', editButtonFunctions);    //Слушатель к кнопке редактировать
-closeButton.addEventListener('click', popupProfileToggle);    //Слушатель к кнопке закрыть на профиле
+closeButtonOnProfileEdit.addEventListener('click', popupProfileToggle);    //Слушатель к кнопке закрыть на профиле
 
 //Открытие и закрытие Попапа с профилем
 function popupProfileToggle() {
@@ -35,7 +35,7 @@ function updateInputsFromForm() {
 }
 
 // Обработчик «отправки» формы профиля, хотя пока она никуда отправляться не будет
-function handleFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы. 
   existingUserName.textContent = nameInput.value; // Вставьте новые значения с помощью textContent
   existingOccupation.textContent = jobInput.value;// Вставьте новые значения с помощью textContent
@@ -44,39 +44,14 @@ function handleFormSubmit(evt) {
 
 // Прикрепляем обработчик к форме профиля:
 // он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', handleFormSubmit);
+formProfile.addEventListener('submit', handleProfileFormSubmit);
 
 
 
 
 ///////////////////////////ПРОЕКТНАЯ РАБОТА №5. По заданиям:///////////////////////////
 ///////////////////////////1. Шесть карточек из "коробки"///////////////////////////
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+//Массив карточек вынесен в initialCards.js
 
 initialCards.reverse(); //обращаем изначальный массив для его корректного отображения с помощью prepend.
 
@@ -85,7 +60,8 @@ const elements = document.querySelector('.elements');
 initialCards.forEach(createCard);
 
 function createCard(card) {
-  const newCard = document.querySelector('.cardTemplate').content.cloneNode(true);
+  const cardTemplate = document.querySelector('.cardTemplate').content;
+  const newCard = cardTemplate.cloneNode(true);
   const cardHeading = newCard.querySelector('.element__title');
   const cardImage = newCard.querySelector('.element__image')
   const deleteButton = newCard.querySelector('.element__trash-btn');
@@ -159,10 +135,11 @@ function handleDeleteButtonClick(event) {
 ///////////////////////////6. Открытие попапа с картинкой///////////////////////////
 const popupImage = document.querySelector('.popup_type_image');
 const enlargeImage = document.querySelector('.popup__image');
+const popupImageCaption = document.querySelector('.popup__caption');
 function handleImageClick(event) {
 const bigImage = event.target;
-const caption = document.querySelector('.popup__caption');
-caption.textContent = bigImage.name; ////Подпись к картинке попапа
+
+popupImageCaption.textContent = bigImage.name; ////Подпись к картинке попапа
 enlargeImage.alt = bigImage.alt;
 enlargeImage.src = bigImage.src;
 popupImageToggle();
