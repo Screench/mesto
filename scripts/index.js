@@ -1,6 +1,8 @@
+
+
 ///////////////////////////Проектная работа №4 (Попап редактирование профиля)///////////////////////////
 const editButton = document.querySelector('.profile__edit-btn');      //Кнопка Редактировать
-const closeButtonOnProfileEdit = document.querySelector('.popup__close-btn');                          //Кнопка Закрыть
+const closeButtonOnProfileEdit = document.querySelector('.popup_type_profile .popup__close-btn');                          //Кнопка Закрыть
 const popupProfile = document.querySelector('.popup_type_profile');                       //Находим попап профиля в DOM
 
 // Находим поля формы профиля в DOM
@@ -14,17 +16,13 @@ const existingOccupation = document.querySelector('.profile__occupation');
 
 const formProfile = document.querySelector('.profile-form');    // Находим форму профиля в DOM
 editButton.addEventListener('click', editButtonFunctions);    //Слушатель к кнопке редактировать
-closeButtonOnProfileEdit.addEventListener('click', popupProfileToggle);    //Слушатель к кнопке закрыть на профиле
+closeButtonOnProfileEdit.addEventListener('click', () => closePopup(popupProfile));     //Слушатель к кнопке закрыть на профиле
 
-//Открытие и закрытие Попапа с профилем
-function popupProfileToggle() {
-  popupProfile.classList.toggle('popup_opened');
-}
 
 //По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML. 
 //Реализовано с помощью поочередного вызова соответствующих функций
 function editButtonFunctions() {
-  popupProfileToggle();
+  openPopup(popupProfile);
   updateInputsFromForm();
 }
 
@@ -39,7 +37,7 @@ function handleProfileFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы. 
   existingUserName.textContent = nameInput.value; // Вставьте новые значения с помощью textContent
   existingOccupation.textContent = jobInput.value;// Вставьте новые значения с помощью textContent
-  popupProfileToggle(); //Закрытие окна
+  closePopup(popupProfile); //Закрытие окна
 }
 
 // Прикрепляем обработчик к форме профиля:
@@ -74,7 +72,9 @@ function createCard(card) {
   cardImage.setAttribute('alt', `Изображение ${card.name}`);
   cardImage.setAttribute('name', card.name);
   elements.prepend(newCard);
+  //return newCard;
 };
+
 
 
 
@@ -85,16 +85,12 @@ const popupPlace = document.querySelector('.popup_type_place');       //Нахо
 const closeButtonOnAddPlace = document.querySelector('.popup_type_place .popup__close-btn'); //Находим кнопку закрытия попапа новой карточки
 const formPlace = document.querySelector('.place-form');              // Находим форму новой карточки в DOM
 addButton.addEventListener('click', addButtonFunctions);            //Слушатель к кнопке добавить карточку
-closeButtonOnAddPlace.addEventListener('click', popupPlaceToggle);  //Слушатель к кнопке закрыть на добавлении карточки
-
+//Слушатель к кнопке закрыть на добавлении карточки
+closeButtonOnAddPlace.addEventListener('click', () => closePopup(popupPlace));
 //По кнопке "Добавить" открываем попап 
 function addButtonFunctions() {
   formPlace.reset();
-  popupPlaceToggle();
-}
-
-function popupPlaceToggle() {
-  popupPlace.classList.toggle('popup_opened');
+  openPopup(popupPlace);
 }
 
 
@@ -104,7 +100,7 @@ formPlace.addEventListener('submit', handleFormSubmitPlace);    // Прикре�
 
 // Обработчик «отправки» формы новой карточки
 function handleFormSubmitPlace(evt) {
-  evt.preventDefault(); 
+  evt.preventDefault();
   const form = evt.target;
   const name = form.querySelector('.popup__input_field_place').value;
   const link = form.querySelector('.popup__input_field_link').value;
@@ -113,9 +109,17 @@ function handleFormSubmitPlace(evt) {
     link: link,
   }
   createCard(card);
-  popupPlaceToggle(); 
+  closePopup(popupPlace);
 }
 
+//Функция добавления попапов
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+}
+
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+}
 
 ///////////////////////////4. Лайк карточки///////////////////////////
 function handleLikeButtonClick(event) {
@@ -137,21 +141,16 @@ const popupImage = document.querySelector('.popup_type_image');
 const enlargeImage = document.querySelector('.popup__image');
 const popupImageCaption = document.querySelector('.popup__caption');
 function handleImageClick(event) {
-const bigImage = event.target;
+  const bigImage = event.target;
 
-popupImageCaption.textContent = bigImage.name; ////Подпись к картинке попапа
-enlargeImage.alt = bigImage.alt;
-enlargeImage.src = bigImage.src;
-popupImageToggle();
-}
-
-function popupImageToggle() {
-  popupImage.classList.toggle('popup_opened');
+  popupImageCaption.textContent = bigImage.name; ////Подпись к картинке попапа
+  enlargeImage.alt = bigImage.alt;
+  enlargeImage.src = bigImage.src;
+  openPopup(popupImage);
 }
 
 const closeButtonOnPopupImage = document.querySelector('.popup_type_image .popup__close-btn');
-closeButtonOnPopupImage.addEventListener('click', popupImageToggle);
-
+closeButtonOnPopupImage.addEventListener('click', () => closePopup(popupImage));
 
 ///////////////////////////7. Плавное открытие и закрытие попапов///////////////////////////
 //Реализовано в CSS
