@@ -1,9 +1,7 @@
-
-
 ///////////////////////////Проектная работа №4 (Попап редактирование профиля)///////////////////////////
-const editButton = document.querySelector('.profile__edit-btn');      //Кнопка Редактировать
-const closeButtonOnProfileEdit = document.querySelector('.popup_type_profile .popup__close-btn');                          //Кнопка Закрыть
-const popupProfile = document.querySelector('.popup_type_profile');                       //Находим попап профиля в DOM
+const editButton = document.querySelector('.profile__edit-btn');                                    //Кнопка Редактировать
+const closeButtonOnProfileEdit = document.querySelector('.popup_type_profile .popup__close-btn');   //Кнопка Закрыть Профиль
+const popupProfile = document.querySelector('.popup_type_profile');                                 //Находим попап профиля в DOM
 
 // Находим поля формы профиля в DOM
 const nameInput = document.querySelector('.popup__input_field_name');
@@ -15,7 +13,7 @@ const existingUserName = document.querySelector('.profile__title');
 const existingOccupation = document.querySelector('.profile__occupation');
 
 const formProfile = document.querySelector('.profile-form');    // Находим форму профиля в DOM
-editButton.addEventListener('click', editButtonFunctions);    //Слушатель к кнопке редактировать
+editButton.addEventListener('click', editButtonFunctions);      //Слушатель к кнопке редактировать
 closeButtonOnProfileEdit.addEventListener('click', () => closePopup(popupProfile));     //Слушатель к кнопке закрыть на профиле
 
 
@@ -51,11 +49,13 @@ formProfile.addEventListener('submit', handleProfileFormSubmit);
 ///////////////////////////1. Шесть карточек из "коробки"///////////////////////////
 //Массив карточек вынесен в initialCards.js
 
-initialCards.reverse(); //обращаем изначальный массив для его корректного отображения с помощью prepend.
-
 const elements = document.querySelector('.elements');
 
-initialCards.forEach(createCard);
+//Вставка начальных карточек в DOM
+initialCards.forEach((card) => {
+  elements.append(createCard(card));
+});
+
 
 function createCard(card) {
   const cardTemplate = document.querySelector('.cardTemplate').content;
@@ -71,8 +71,7 @@ function createCard(card) {
   cardImage.setAttribute('src', card.link);
   cardImage.setAttribute('alt', `Изображение ${card.name}`);
   cardImage.setAttribute('name', card.name);
-  elements.prepend(newCard);
-  //return newCard;
+  return newCard;
 };
 
 
@@ -108,9 +107,14 @@ function handleFormSubmitPlace(evt) {
     name: name,
     link: link,
   }
-  createCard(card);
+  renderCard(card);
   closePopup(popupPlace);
 }
+
+const renderCard = (card) => {
+  elements.prepend(createCard(card));
+};
+
 
 //Функция добавления попапов
 function openPopup(popup) {
