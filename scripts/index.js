@@ -1,4 +1,4 @@
-///////////////////////////Проектная работа №4 (Попап редактирование профиля)///////////////////////////
+///////////////////////////ПЕРЕМЕННЫЕ///////////////////////////
 const editButton = document.querySelector('.profile__edit-btn');                                    //Кнопка Редактировать
 const closeButtonOnProfileEdit = document.querySelector('.popup_type_profile .popup__close-btn');   //Кнопка Закрыть Профиль
 const popupProfile = document.querySelector('.popup_type_profile');                                 //Находим попап профиля в DOM
@@ -11,52 +11,54 @@ const placeInput = document.querySelector('.popup__input_field_name');
 // Находим элементы, куда должны быть вставлены значения полей
 const existingUserName = document.querySelector('.profile__title');
 const existingOccupation = document.querySelector('.profile__occupation');
-
 const formProfile = document.querySelector('.profile-form');    // Находим форму профиля в DOM
-editButton.addEventListener('click', editButtonFunctions);      //Слушатель к кнопке редактировать
-closeButtonOnProfileEdit.addEventListener('click', () => closePopup(popupProfile));     //Слушатель к кнопке закрыть на профиле
 
+const elements = document.querySelector('.elements');
+
+const addButton = document.querySelector('.profile__add-btn');        //Кнопка Добавить
+const popupPlace = document.querySelector('.popup_type_place');       //Находим попап новой карточки в DOM
+const closeButtonOnAddPlace = document.querySelector('.popup_type_place .popup__close-btn'); //Кнопка закрытия попапа новой карточки
+const formPlace = document.querySelector('.place-form');              // Находим форму новой карточки в DOM
+
+const popupImage = document.querySelector('.popup_type_image'); // Попап с картинкой
+const enlargeImage = document.querySelector('.popup__image');  // Сама картинка в попапе
+const popupImageCaption = document.querySelector('.popup__caption'); //Подпись к картинке попапа
+
+const closeButtonOnPopupImage = document.querySelector('.popup_type_image .popup__close-btn'); //Кнопка закрытия на попапе с картинкой
+
+const renderCard = (card) => {
+  elements.prepend(createCard(card));
+};
+
+///////////////////////////ФУНКЦИИ///////////////////////////
 
 //По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML. 
-//Реализовано с помощью поочередного вызова соответствующих функций
 function editButtonFunctions() {
   openPopup(popupProfile);
   updateInputsFromForm();
 }
 
+// Получаем значение полей jobInput и nameInput из свойства value в форме профиля
 function updateInputsFromForm() {
-  // Получите значение полей jobInput и nameInput из свойства value
   jobInput.value = existingOccupation.textContent;
   nameInput.value = existingUserName.textContent;
 }
 
-// Обработчик «отправки» формы профиля, хотя пока она никуда отправляться не будет
+// Обработчик формы профиля
 function handleProfileFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы. 
-  existingUserName.textContent = nameInput.value; // Вставьте новые значения с помощью textContent
-  existingOccupation.textContent = jobInput.value;// Вставьте новые значения с помощью textContent
+  existingUserName.textContent = nameInput.value; // Вставляем новые значения с помощью textContent
+  existingOccupation.textContent = jobInput.value;// Вставляем новые значения с помощью textContent
   closePopup(popupProfile); //Закрытие окна
 }
 
-// Прикрепляем обработчик к форме профиля:
-// он будет следить за событием “submit” - «отправка»
-formProfile.addEventListener('submit', handleProfileFormSubmit);
+//По кнопке "Добавить новую карточку" открываем попап новой карточки
+function addButtonFunctions() {
+  formPlace.reset();
+  openPopup(popupPlace);
+}
 
-
-
-
-///////////////////////////ПРОЕКТНАЯ РАБОТА №5. По заданиям:///////////////////////////
-///////////////////////////1. Шесть карточек из "коробки"///////////////////////////
-//Массив карточек вынесен в initialCards.js
-
-const elements = document.querySelector('.elements');
-
-//Вставка начальных карточек в DOM
-initialCards.forEach((card) => {
-  elements.append(createCard(card));
-});
-
-
+//Создание карточки
 function createCard(card) {
   const cardTemplate = document.querySelector('.cardTemplate').content;
   const newCard = cardTemplate.cloneNode(true);
@@ -74,30 +76,7 @@ function createCard(card) {
   return newCard;
 };
 
-
-
-
-///////////////////////////2. Форма добавления карточки///////////////////////////
-
-const addButton = document.querySelector('.profile__add-btn');        //Кнопка Добавить
-const popupPlace = document.querySelector('.popup_type_place');       //Находим попап новой карточки в DOM
-const closeButtonOnAddPlace = document.querySelector('.popup_type_place .popup__close-btn'); //Находим кнопку закрытия попапа новой карточки
-const formPlace = document.querySelector('.place-form');              // Находим форму новой карточки в DOM
-addButton.addEventListener('click', addButtonFunctions);            //Слушатель к кнопке добавить карточку
-//Слушатель к кнопке закрыть на добавлении карточки
-closeButtonOnAddPlace.addEventListener('click', () => closePopup(popupPlace));
-//По кнопке "Добавить" открываем попап 
-function addButtonFunctions() {
-  formPlace.reset();
-  openPopup(popupPlace);
-}
-
-
-///////////////////////////3. Добавление карточки///////////////////////////
-
-formPlace.addEventListener('submit', handleFormSubmitPlace);    // Прикрепляем обработчик к форме новой карточки:
-
-// Обработчик «отправки» формы новой карточки
+// Обработчик формы новой карточки
 function handleFormSubmitPlace(evt) {
   evt.preventDefault();
   const form = evt.target;
@@ -111,28 +90,25 @@ function handleFormSubmitPlace(evt) {
   closePopup(popupPlace);
 }
 
-const renderCard = (card) => {
-  elements.prepend(createCard(card));
-};
 
-
-//Функция добавления попапов
+//Открытие попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
 }
 
+//Закрытие попапов
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
 
-///////////////////////////4. Лайк карточки///////////////////////////
+//Лайк карточки
 function handleLikeButtonClick(event) {
   // const likeBtn = event.target;
   event.target.classList.toggle('element__heart-btn_active');
 };
 
 
-///////////////////////////5. Удаление карточки///////////////////////////
+//Удаление карточки
 function handleDeleteButtonClick(event) {
   const trashBtn = event.target;
   const element = trashBtn.closest('.element');
@@ -140,21 +116,31 @@ function handleDeleteButtonClick(event) {
 }
 
 
-///////////////////////////6. Открытие попапа с картинкой///////////////////////////
-const popupImage = document.querySelector('.popup_type_image');
-const enlargeImage = document.querySelector('.popup__image');
-const popupImageCaption = document.querySelector('.popup__caption');
+
+//Открытие попапа с картинкой
 function handleImageClick(event) {
   const bigImage = event.target;
-
   popupImageCaption.textContent = bigImage.name; ////Подпись к картинке попапа
   enlargeImage.alt = bigImage.alt;
   enlargeImage.src = bigImage.src;
   openPopup(popupImage);
 }
 
-const closeButtonOnPopupImage = document.querySelector('.popup_type_image .popup__close-btn');
-closeButtonOnPopupImage.addEventListener('click', () => closePopup(popupImage));
+//Вставка начальных карточек в DOM
+initialCards.forEach((card) => {
+  elements.append(createCard(card));
+});
 
-///////////////////////////7. Плавное открытие и закрытие попапов///////////////////////////
-//Реализовано в CSS
+
+///////////////////////////ОБРАБОТЧИКИ СОБЫТИЙ///////////////////////////
+formProfile.addEventListener('submit', handleProfileFormSubmit); // Обработчик к форме профиля:
+
+closeButtonOnPopupImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель к кнопке закрыть на попапе с картинкой
+
+editButton.addEventListener('click', editButtonFunctions);      //Слушатель к кнопке "редактировать профиль"
+closeButtonOnProfileEdit.addEventListener('click', () => closePopup(popupProfile));     //Слушатель к кнопке закрыть на профиле
+
+//Форма добавления карточки
+addButton.addEventListener('click', addButtonFunctions);            //Слушатель к кнопке "добавить карточку"
+closeButtonOnAddPlace.addEventListener('click', () => closePopup(popupPlace)); //Слушатель к кнопке закрыть на добавлении карточки
+formPlace.addEventListener('submit', handleFormSubmitPlace);    // Прикрепляем обработчик к форме новой карточки:
