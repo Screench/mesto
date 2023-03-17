@@ -5,17 +5,17 @@ const popupProfile = document.querySelector('.popup_type_profile');             
 
 // Находим поля формы профиля в DOM
 const nameInput = document.querySelector('.popup__input_field_name');
-const jobInput = document.querySelector('.popup__input_field_occupation');
-const placeInput = document.querySelector('.popup__input_field_name');
+let jobInput = document.querySelector('.popup__input_field_occupation');
+let placeInput = document.querySelector('.popup__input_field_name');
 
-// Находим элементы, куда должны быть вставлены значения полей
+// Находим элементы, куда должны быть вставлены значения полей профиля
 const existingUserName = document.querySelector('.profile__title');
 const existingOccupation = document.querySelector('.profile__occupation');
 const formProfile = document.querySelector('.profile-form');    // Находим форму профиля в DOM
 
 const elements = document.querySelector('.elements');
 
-const addButton = document.querySelector('.profile__add-btn');        //Кнопка Добавить
+const addButton = document.querySelector('.profile__add-btn');        //Кнопка Добавить карточку
 const popupPlace = document.querySelector('.popup_type_place');       //Находим попап новой карточки в DOM
 const closeButtonOnAddPlace = document.querySelector('.popup_type_place .popup__close-btn'); //Кнопка закрытия попапа новой карточки
 const formPlace = document.querySelector('.place-form');              // Находим форму новой карточки в DOM
@@ -35,7 +35,7 @@ const renderCard = (card) => {
 //По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML. 
 function editButtonFunctions() {
   openPopup(popupProfile);
-  updateInputsFromForm();
+  // updateInputsFromForm();
 }
 
 // Получаем значение полей jobInput и nameInput из свойства value в форме профиля
@@ -45,7 +45,7 @@ function updateInputsFromForm() {
 }
 
 // Обработчик формы профиля
-function handleProfileFormSubmit(evt) {
+function handleFormProfileSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы. 
   existingUserName.textContent = nameInput.value; // Вставляем новые значения с помощью textContent
   existingOccupation.textContent = jobInput.value;// Вставляем новые значения с помощью textContent
@@ -133,7 +133,7 @@ initialCards.forEach((card) => {
 
 
 ///////////////////////////ОБРАБОТЧИКИ СОБЫТИЙ///////////////////////////
-formProfile.addEventListener('submit', handleProfileFormSubmit); // Обработчик к форме профиля:
+formProfile.addEventListener('submit', handleFormProfileSubmit); // Обработчик к форме профиля:
 
 closeButtonOnPopupImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель к кнопке закрыть на попапе с картинкой
 
@@ -144,3 +144,85 @@ closeButtonOnProfileEdit.addEventListener('click', () => closePopup(popupProfile
 addButton.addEventListener('click', addButtonFunctions);            //Слушатель к кнопке "добавить карточку"
 closeButtonOnAddPlace.addEventListener('click', () => closePopup(popupPlace)); //Слушатель к кнопке закрыть на добавлении карточки
 formPlace.addEventListener('submit', handleFormSubmitPlace);    // Прикрепляем обработчик к форме новой карточки:
+
+
+
+
+const showInputError = (errorTextElement, validationMessage) => {
+  errorTextElement.textContent = validationMessage;
+  errorTextElement.classList.add(activeErrorClass);
+}
+
+const hideInputError = () => {
+  errorTextElement.classList.remove(activeErrorClass);
+  errorTextElement.textContent = '';
+}
+
+const disableButton = (submitButton, disabledSubmitButtonClass) => {
+  submitButton.classList.remove(disabledSubmitButtonClass);
+  submitButton.disabled = false;
+}
+
+const enableButton = (submitButton, disabledSubmitButtonClass) => {
+  submitButton.classList.add(disabledSubmitButtonClass);
+  submitButton.disabled = true;
+}
+  
+const checkInputValidity = (input, errorClassTemplate, activeErrorClass) => {
+ const errorTextElement = document.querySelector(`${errorClassTemplate}${inputSelector}`);
+ console.log(inputSelector);
+  if(!input.validity.valid) {
+  showInputError(errorTextElement, input.validationMessage, activeErrorClass);
+  
+ } else {
+  hideInputError(errorTextElement, activeErrorClass);
+ }
+}
+
+const hasInvalidInput = () => {
+  return Array.from(inputList).some((input) => !input.validity.valid);
+}
+
+
+const toggleButtonState = (submitButton, disabledSubmitButtonClass, inputList) => {
+  if (!hasInvalidInput(inputList)) {
+    enableButton(submitButton, disabledSubmitButtonClass);
+  } else {
+    disableButton(submitButton, disabledSubmitButtonClass);
+  }
+
+}
+/////////////////////////////////////////////////////////////////
+const setEventListeners = (form, inputList, { errorClassTemplate, activeErrorClass, disabledSubmitButtonClass }, submitButton) => {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+  });
+/////////////////////////////////////////////////////////////////////////////////
+
+  inputList.forEach((input) => {
+    input.addEventListener('input', (e) => {
+      checkInputValidity(input, errorClassTemplate, activeErrorClass);
+      toggleButtonState(submitButton, disabledSubmitButtonClass, inputList);
+    });
+  });
+}
+
+
+const enableValidation = ({formSelector, inputSelector, submitButtonSelector, ...config}) => {
+  const form = document.querySelector(formSelector);
+  const inputList = form.querySelectorAll(inputSelector);
+  const submitButton = form.querySelector(submitButtonSelector);
+  
+  setEventListeners(form, inputList, config, submitButton);
+}
+
+
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  errorClassTemplate: '.popup__input-error_type_',
+  activeErrorClass: 'popup__input-error',
+  submitButtonSelector: '.popup__submit-btn',
+  disabledSubmitButtonClass:'popup__submit-btn_disabled',
+});
