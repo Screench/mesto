@@ -11,7 +11,7 @@ const objectValidation = {
 //Попап редактирования Профиля
 const popupProfile = document.querySelector('.popup_type_profile');                                 //Находим попап Профиля в DOM
 const editButton = document.querySelector('.profile__edit-btn');                                    //Кнопка Редактировать Профиль
-const closeButtonOnProfileEdit = document.querySelector('.popup_type_profile .popup__close-btn');   //Кнопка Закрыть Профиль
+const buttonClosePopupProfile = document.querySelector('.popup_type_profile .popup__close-btn');   //Кнопка Закрыть Профиль
 const nameInput = document.querySelector('.popup__input_field_name');                               //Находим поле Профиля с именем
 const jobInput = document.querySelector('.popup__input_field_job');                                 //Находим поле Профиля с родом занятий
 const formProfile = document.querySelector('.profile-form');                                        //Находим форму Профиля
@@ -21,23 +21,26 @@ const existingOccupation = document.querySelector('.profile__occupation');      
 //Попап Нового Места
 const popupPlace = document.querySelector('.popup_type_place');                                     //Находим попап Места
 const addButton = document.querySelector('.profile__add-btn');                                      //Кнопка Добавить Место
-const closeButtonOnAddPlace = document.querySelector('.popup_type_place .popup__close-btn');        //Кнопка закрыть Место
-const placeInput = document.querySelector('.popup__input_field_title');                             //Находим поле Места с заголовком
+const buttonClosePopupPlace = document.querySelector('.popup_type_place .popup__close-btn');        //Кнопка закрыть Место
+//const placeInput = document.querySelector('.popup__input_field_title');                             //Находим поле Места с заголовком
 const formPlace = document.querySelector('.place-form');                                            //Находим форму Места
+const inputFieldTitle = document.querySelector('.popup__input_field_title');                  //Находим значения заголовка Места
+const inputFieldLink = document.querySelector('.popup__input_field_link');                    //Находим значение поля с сылкой Места
+
 
 //Попап с Картинкой
 const popupImage = document.querySelector('.popup_type_image');                                     //Находим Попап с картинкой
-const closeButtonOnPopupImage = document.querySelector('.popup_type_image .popup__close-btn');      //Кнопка закрытия Картинки
+const buttonClosePopupImage = document.querySelector('.popup_type_image .popup__close-btn');      //Кнопка закрытия Картинки
 const enlargeImage = document.querySelector('.popup__image');                                       //Сама картинка в попапе
 const popupImageCaption = document.querySelector('.popup__caption');                                //Подпись к картинке попапа
 
 
 
-//Определяем границы попапа
-const popupClosest = document.querySelectorAll('.popup');                                           //Находим границы окна при нажатии на Esc и Overlay
+//Определяем границы попапов
+const popupsClosest = document.querySelectorAll('.popup');                                           //Находим границы окна при нажатии на Esc и Overlay
 
 //Добавление карточек
-const cardTemplate = document.querySelector('.cardTemplate').content;
+const cardTemplate = document.querySelector('.cardTemplate').content.firstElementChild;             //Находим шаблон для карточек
 const elements = document.querySelector('.elements');                                               //Элемент, куда положим карточки
 
 
@@ -61,24 +64,29 @@ function createCard(card) {
   const cardImage = newCard.querySelector('.element__image')
   const deleteButton = newCard.querySelector('.element__trash-btn');
   const likeButton = newCard.querySelector('.element__heart-btn');
-  cardImage.addEventListener('click', handleImageClick);
+  //cardImage.addEventListener('click', handleImageClick);
+
   likeButton.addEventListener('click', handleLikeButtonClick);
   deleteButton.addEventListener('click', handleDeleteButtonClick);
   cardHeading.textContent = card.name;
   cardImage.setAttribute('src', card.link);
   cardImage.setAttribute('alt', `Изображение ${card.name}`);
   cardImage.setAttribute('name', card.name);
+
+  attachCardImageEventListener(cardImage);
   return newCard;
 };
 
 //Открытие попапа с картинкой
-function handleImageClick(event) {
-  const bigImage = event.target;
-  popupImageCaption.textContent = bigImage.name; ////Подпись к картинке попапа
-  enlargeImage.alt = bigImage.alt;
-  enlargeImage.src = bigImage.src;
-  openPopup(popupImage);
-}
+function attachCardImageEventListener(CardImagePreview) {
+  CardImagePreview.addEventListener('click', (evt) => {
+    openPopup(popupImage);
+
+    enlargeImage.src = CardImagePreview.src;
+    enlargeImage.alt = CardImagePreview.alt;
+    popupImageCaption.textContent = evt.target.closest('.element').textContent;
+  });
+};
 
 //Вставка начальных карточек в DOM
 initialCards.forEach((card) => {
@@ -154,11 +162,11 @@ function handleProfileFormSubmit(evt) {
 }
 
 //Закрытие всех Попапов при нажатии на Оверлэй
-popupClosest.forEach((item) => {
+popupsClosest.forEach((item) => {
   item.addEventListener('mousedown', (evt) => {
     if (evt.target === evt.currentTarget) {
-      const popupClosestOverlay = popupAddClosest(evt);
-      closePopup(popupClosestOverlay);
+      const popupsClosestOverlay = addClosestPopup(evt);
+      closePopup(popupsClosestOverlay);
     };
   });
 });
@@ -175,11 +183,10 @@ function addButtonFunctions() {
 function handleFormSubmitPlace(evt) {
   evt.preventDefault();
   const form = evt.target;
-  const name = form.querySelector('.popup__input_field_title').value;
-  const link = form.querySelector('.popup__input_field_link').value;
+  
   const card = {
-    name: name,
-    link: link,
+    name: inputFieldTitle.value,
+    link: inputFieldLink.value,
   }
   renderCard(card);
   closePopup(popupPlace);
@@ -193,7 +200,7 @@ const renderCard = (card) => {
 
 
 //Возвращение события
-const popupAddClosest = (evt) => {
+const addClosestPopup = (evt) => {
   return evt.target.closest('.popup');
 };
 
@@ -225,14 +232,14 @@ const popupAddClosest = (evt) => {
 ///////////////////////////ОБРАБОТЧИКИ СОБЫТИЙ///////////////////////////
 formProfile.addEventListener('submit', handleProfileFormSubmit); // Обработчик к форме профиля:
 
-closeButtonOnPopupImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель к кнопке закрыть на попапе с картинкой
+buttonClosePopupImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель к кнопке закрыть на попапе с картинкой
 
 editButton.addEventListener('click', editButtonFunctions);      //Слушатель к кнопке "редактировать профиль"
-closeButtonOnProfileEdit.addEventListener('click', () => closePopup(popupProfile));     //Слушатель к кнопке закрыть на профиле
+buttonClosePopupProfile.addEventListener('click', () => closePopup(popupProfile));     //Слушатель к кнопке закрыть на профиле
 
 //Форма добавления карточки
 addButton.addEventListener('click', addButtonFunctions);            //Слушатель к кнопке "добавить Место"
-closeButtonOnAddPlace.addEventListener('click', () => closePopup(popupPlace)); //Слушатель к кнопке закрыть попапе Места
+buttonClosePopupPlace.addEventListener('click', () => closePopup(popupPlace)); //Слушатель к кнопке закрыть попапе Места
 formPlace.addEventListener('submit', handleFormSubmitPlace);    // Прикрепляем обработчик к форме Места:
 
 

@@ -45,7 +45,7 @@ function enableValidation (config) {
     const isFormValid = form.checkValidity();
   
     buttonSubmit.disabled = !isFormValid;
-    buttonSubmit.classList.toggle('popup__submit-btn_disabled', !isFormValid);
+    buttonSubmit.classList.toggle(config.inactiveButtonClass, !isFormValid);
   }
   
   //Слушатели для инпутов
