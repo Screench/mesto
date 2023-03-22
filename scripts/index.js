@@ -6,12 +6,10 @@ const objectValidation = {
   inputErrorClass: 'popup__input_type_error',
 }
 
-
-
 //Попап редактирования Профиля
 const popupProfile = document.querySelector('.popup_type_profile');                                 //Находим попап Профиля в DOM
 const editButton = document.querySelector('.profile__edit-btn');                                    //Кнопка Редактировать Профиль
-const buttonClosePopupProfile = document.querySelector('.popup_type_profile .popup__close-btn');   //Кнопка Закрыть Профиль
+const buttonClosePopupProfile = document.querySelector('.popup_type_profile .popup__close-btn');    //Кнопка Закрыть Профиль
 const nameInput = document.querySelector('.popup__input_field_name');                               //Находим поле Профиля с именем
 const jobInput = document.querySelector('.popup__input_field_job');                                 //Находим поле Профиля с родом занятий
 const formProfile = document.querySelector('.profile-form');                                        //Находим форму Профиля
@@ -22,27 +20,25 @@ const existingOccupation = document.querySelector('.profile__occupation');      
 const popupPlace = document.querySelector('.popup_type_place');                                     //Находим попап Места
 const addButton = document.querySelector('.profile__add-btn');                                      //Кнопка Добавить Место
 const buttonClosePopupPlace = document.querySelector('.popup_type_place .popup__close-btn');        //Кнопка закрыть Место
-//const placeInput = document.querySelector('.popup__input_field_title');                             //Находим поле Места с заголовком
 const formPlace = document.querySelector('.place-form');                                            //Находим форму Места
-const inputFieldTitle = document.querySelector('.popup__input_field_title');                  //Находим значения заголовка Места
-const inputFieldLink = document.querySelector('.popup__input_field_link');                    //Находим значение поля с сылкой Места
+const inputFieldTitle = document.querySelector('.popup__input_field_title');                        //Находим значения заголовка Места
+const inputFieldLink = document.querySelector('.popup__input_field_link');                          //Находим значение поля с сылкой Места
 
 
 //Попап с Картинкой
 const popupImage = document.querySelector('.popup_type_image');                                     //Находим Попап с картинкой
-const buttonClosePopupImage = document.querySelector('.popup_type_image .popup__close-btn');      //Кнопка закрытия Картинки
-const enlargeImage = document.querySelector('.popup__image');                                       //Сама картинка в попапе
+const buttonClosePopupImage = document.querySelector('.popup_type_image .popup__close-btn');        //Кнопка закрытия Картинки
+const enlargedImage = document.querySelector('.popup__image');                                      //Сама картинка в попапе
 const popupImageCaption = document.querySelector('.popup__caption');                                //Подпись к картинке попапа
 
 
 
 //Определяем границы попапов
-const popupsClosest = document.querySelectorAll('.popup');                                           //Находим границы окна при нажатии на Esc и Overlay
+const popupsClosest = document.querySelectorAll('.popup');
 
 //Добавление карточек
-const cardTemplate = document.querySelector('.cardTemplate').content.firstElementChild;             //Находим шаблон для карточек
+const cardTemplate = document.querySelector('.cardTemplate').content.querySelector('.element');     //Находим шаблон для карточек
 const elements = document.querySelector('.elements');                                               //Элемент, куда положим карточки
-
 
 //Лайк карточки
 function handleLikeButtonClick(event) {
@@ -58,34 +54,29 @@ function handleDeleteButtonClick(event) {
 
 //Создание карточки Места
 function createCard(card) {
-  
+
   const newCard = cardTemplate.cloneNode(true);
   const cardHeading = newCard.querySelector('.element__title');
   const cardImage = newCard.querySelector('.element__image')
   const deleteButton = newCard.querySelector('.element__trash-btn');
   const likeButton = newCard.querySelector('.element__heart-btn');
-  //cardImage.addEventListener('click', handleImageClick);
 
   likeButton.addEventListener('click', handleLikeButtonClick);
   deleteButton.addEventListener('click', handleDeleteButtonClick);
   cardHeading.textContent = card.name;
   cardImage.setAttribute('src', card.link);
-  cardImage.setAttribute('alt', `Изображение ${card.name}`);
   cardImage.setAttribute('name', card.name);
-
-  attachCardImageEventListener(cardImage);
+  cardImage.setAttribute('alt', card.name)
+  cardImage.addEventListener('click', () => handleImageClick(card));
   return newCard;
 };
 
 //Открытие попапа с картинкой
-function attachCardImageEventListener(CardImagePreview) {
-  CardImagePreview.addEventListener('click', (evt) => {
-    openPopup(popupImage);
-
-    enlargeImage.src = CardImagePreview.src;
-    enlargeImage.alt = CardImagePreview.alt;
-    popupImageCaption.textContent = evt.target.closest('.element').textContent;
-  });
+function handleImageClick(card) {
+  openPopup(popupImage);
+  enlargedImage.src = card.link;
+  enlargedImage.alt = card.name;
+  popupImageCaption.textContent = card.name;
 };
 
 //Вставка начальных карточек в DOM
@@ -120,23 +111,30 @@ const resetValidationStyle = (objectValidation) => {
   disableSubmitButton(objectValidation);
 };
 
-//Валидация строки ввода
+//Сброс полей при открытии попапа
 const disableSubmitInput = (objectValidation) => {
   const inputList = document.querySelectorAll(objectValidation.inputSelector);
-
+  //удаляем появляющийся текст ошибки и красный бордюр после ввода невалидных данных и закрытия попапа (только для полей с ошибками). 
+  //Валидация при событии input находится в validate.js
   inputList.forEach((input) => {
-    input.classList.remove(objectValidation.inputErrorClass);
-    input.nextElementSibling.textContent = '';
+    if (input.nextElementSibling.textContent) {
+      input.classList.remove(objectValidation.inputErrorClass);
+      input.nextElementSibling.textContent = '';
+    }
+
   });
 }
+
 
 //Валидация кнопки Submit
 const disableSubmitButton = (objectValidation) => {
   const buttonSubmit = document.querySelectorAll(objectValidation.submitButtonSelector);
-
+  //не уверен, что правильно понял, но боюсь не успею переписать логику ничего не поломав
   buttonSubmit.forEach((button) => {
-    button.classList.add(objectValidation.inactiveButtonClass);
-    button.setAttribute('disabled', '');
+    if (button.closest('.popup').classList.contains('popup_opened')) {
+      button.classList.add(objectValidation.inactiveButtonClass);
+      button.setAttribute('disabled', '');
+    }
   });
 }
 
@@ -165,7 +163,7 @@ function handleProfileFormSubmit(evt) {
 popupsClosest.forEach((item) => {
   item.addEventListener('mousedown', (evt) => {
     if (evt.target === evt.currentTarget) {
-      const popupsClosestOverlay = addClosestPopup(evt);
+      const popupsClosestOverlay = getClosestPopup(evt);
       closePopup(popupsClosestOverlay);
     };
   });
@@ -183,7 +181,6 @@ function addButtonFunctions() {
 function handleFormSubmitPlace(evt) {
   evt.preventDefault();
   const form = evt.target;
-  
   const card = {
     name: inputFieldTitle.value,
     link: inputFieldLink.value,
@@ -200,7 +197,7 @@ const renderCard = (card) => {
 
 
 //Возвращение события
-const addClosestPopup = (evt) => {
+const getClosestPopup = (evt) => {
   return evt.target.closest('.popup');
 };
 
@@ -209,28 +206,8 @@ const addClosestPopup = (evt) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ///////////////////////////ОБРАБОТЧИКИ СОБЫТИЙ///////////////////////////
-formProfile.addEventListener('submit', handleProfileFormSubmit); // Обработчик к форме профиля:
+formProfile.addEventListener('submit', handleProfileFormSubmit); // Обработчик к форме профиля
 
 buttonClosePopupImage.addEventListener('click', () => closePopup(popupImage)); //Слушатель к кнопке закрыть на попапе с картинкой
 
@@ -241,12 +218,3 @@ buttonClosePopupProfile.addEventListener('click', () => closePopup(popupProfile)
 addButton.addEventListener('click', addButtonFunctions);            //Слушатель к кнопке "добавить Место"
 buttonClosePopupPlace.addEventListener('click', () => closePopup(popupPlace)); //Слушатель к кнопке закрыть попапе Места
 formPlace.addEventListener('submit', handleFormSubmitPlace);    // Прикрепляем обработчик к форме Места:
-
-
- 
-
-
-
-
-
-

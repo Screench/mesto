@@ -19,7 +19,7 @@ function enableValidation (config) {
         toggleButton(form, config);
       });
   
-      addInputListners(form, config);
+      addInputListeners(form, config);
       toggleButton(form, config);
     });
   }
@@ -49,7 +49,7 @@ function enableValidation (config) {
   }
   
   //Слушатели для инпутов
-  function addInputListners (form, config) {
+  function addInputListeners (form, config) {
     const inputList = Array.from(form.querySelectorAll(config.inputSelector));
   
     inputList.forEach(function (item) {
