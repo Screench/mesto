@@ -54,13 +54,11 @@ function handleDeleteButtonClick(event) {
 
 //Создание карточки Места
 function createCard(card) {
-
   const newCard = cardTemplate.cloneNode(true);
   const cardHeading = newCard.querySelector('.element__title');
   const cardImage = newCard.querySelector('.element__image')
   const deleteButton = newCard.querySelector('.element__trash-btn');
   const likeButton = newCard.querySelector('.element__heart-btn');
-
   likeButton.addEventListener('click', handleLikeButtonClick);
   deleteButton.addEventListener('click', handleDeleteButtonClick);
   cardHeading.textContent = card.name;
@@ -106,43 +104,33 @@ const handleEscClosePopup = (evt) => {
 };
 
 //Сброс общих стилей при открытии Попапа
-const resetValidationStyle = (objectValidation) => {
-  disableSubmitInput(objectValidation);
-  disableSubmitButton(objectValidation);
+const resetValidationStyle = (popupName) => {
+  disableSubmitInput(popupName);
+  disableSubmitButton(popupName);
 };
 
 //Сброс полей при открытии попапа
-const disableSubmitInput = (objectValidation) => {
-  const inputList = document.querySelectorAll(objectValidation.inputSelector);
-  //удаляем появляющийся текст ошибки и красный бордюр после ввода невалидных данных и закрытия попапа (только для полей с ошибками). 
-  //Валидация при событии input находится в validate.js
+const disableSubmitInput = (popupName) => {
+  const inputList = popupName.querySelectorAll(objectValidation.inputSelector);
   inputList.forEach((input) => {
-    if (input.nextElementSibling.textContent) {
-      input.classList.remove(objectValidation.inputErrorClass);
-      input.nextElementSibling.textContent = '';
-    }
-
+    input.classList.remove(objectValidation.inputErrorClass);
+    input.nextElementSibling.textContent = '';
   });
 }
 
 
-//Валидация кнопки Submit
-const disableSubmitButton = (objectValidation) => {
-  const buttonSubmit = document.querySelectorAll(objectValidation.submitButtonSelector);
-  //не уверен, что правильно понял, но боюсь не успею переписать логику ничего не поломав
-  buttonSubmit.forEach((button) => {
-    if (button.closest('.popup').classList.contains('popup_opened')) {
-      button.classList.add(objectValidation.inactiveButtonClass);
-      button.setAttribute('disabled', '');
-    }
-  });
+//Сброс кнопки Submit
+const disableSubmitButton = (popupName) => {
+  const buttonSubmit = popupName.querySelector(objectValidation.submitButtonSelector);
+    buttonSubmit.classList.add(objectValidation.inactiveButtonClass);
+    buttonSubmit.setAttribute('disabled', '');
 }
 
 //По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML. 
 function editButtonFunctions() {
   openPopup(popupProfile);
   updateInputsFromForm();
-  resetValidationStyle(objectValidation);
+  resetValidationStyle(popupProfile);
 }
 
 // Получаем значение полей jobInput и nameInput из свойства value в форме профиля
@@ -174,8 +162,11 @@ popupsClosest.forEach((item) => {
 function addButtonFunctions() {
   formPlace.reset();
   openPopup(popupPlace);
-  resetValidationStyle(objectValidation);
+  resetValidationStyle(popupPlace);
 }
+
+
+
 
 // Обработчик формы новой карточки
 function handleFormSubmitPlace(evt) {
