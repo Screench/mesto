@@ -1,10 +1,8 @@
-//Объект валидации
-const objectValidation = {
-  submitButtonSelector: '.popup__submit-btn',
-  inactiveButtonClass: 'popup__submit-btn_disabled',
-  inputSelector: '.popup__input',
-  inputErrorClass: 'popup__input_type_error',
-}
+import {FormValidator} from './FormValidator.js';
+import {Card } from './Card.js';
+import {initialCards, objectValidation } from './utils.js';
+
+
 
 //Попап редактирования Профиля
 const popupProfile = document.querySelector('.popup_type_profile');                                 //Находим попап Профиля в DOM
@@ -52,22 +50,32 @@ function handleDeleteButtonClick(event) {
   element.remove();
 }
 
-//Создание карточки Места
-function createCard(card) {
-  const newCard = cardTemplate.cloneNode(true);
-  const cardHeading = newCard.querySelector('.element__title');
-  const cardImage = newCard.querySelector('.element__image')
-  const deleteButton = newCard.querySelector('.element__trash-btn');
-  const likeButton = newCard.querySelector('.element__heart-btn');
-  likeButton.addEventListener('click', handleLikeButtonClick);
-  deleteButton.addEventListener('click', handleDeleteButtonClick);
-  cardHeading.textContent = card.name;
-  cardImage.setAttribute('src', card.link);
-  cardImage.setAttribute('name', card.name);
-  cardImage.setAttribute('alt', card.name)
-  cardImage.addEventListener('click', () => handleImageClick(card));
-  return newCard;
+//////////////////////////////////////////
+/** Функция создания карточки */
+const createCard = (card) => {
+  const newCard = new Card(card, '.cardTemplate', handleImageClick);
+
+  return newCard.generateCard();
 };
+
+
+//////////////////////////////////////////
+//Создание карточки Места
+// function createCard(card) {
+//   const newCard = cardTemplate.cloneNode(true);
+//   const cardHeading = newCard.querySelector('.element__title');
+//   const cardImage = newCard.querySelector('.element__image')
+//   const deleteButton = newCard.querySelector('.element__trash-btn');
+//   const likeButton = newCard.querySelector('.element__heart-btn');
+//   likeButton.addEventListener('click', handleLikeButtonClick);
+//   deleteButton.addEventListener('click', handleDeleteButtonClick);
+//   cardHeading.textContent = card.name;
+//   cardImage.setAttribute('src', card.link);
+//   cardImage.setAttribute('name', card.name);
+//   cardImage.setAttribute('alt', card.name)
+//   cardImage.addEventListener('click', () => handleImageClick(card));
+//   return newCard;
+// };
 
 //Открытие попапа с картинкой
 function handleImageClick(card) {
