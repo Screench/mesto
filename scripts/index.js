@@ -5,8 +5,8 @@ import {initialCards, formValidationConfig} from './utils.js';
 //Попап редактирования Профиля
 const popupProfile = document.querySelector('.popup_type_profile');                      //Находим попап Профиля в DOM
 const editButton = document.querySelector('.profile__edit-btn');                         //Кнопка Редактировать Профиль
-const nameInput = document.querySelector('.popup__input_field_name');                    //Находим поле Профиля с именем
-const jobInput = document.querySelector('.popup__input_field_job');                      //Находим поле Профиля с родом занятий
+const inputNameFormProfile = document.querySelector('.popup__input_field_name');                    //Находим поле Профиля с именем
+const inputJobFormProfile = document.querySelector('.popup__input_field_job');                      //Находим поле Профиля с родом занятий
 const formProfile = document.querySelector('.profile-form');                             //Находим форму popup изменения профиля
 const existingUserName = document.querySelector('.profile__title');                      //Находим элементы, куда будут вставлены значения полей
 const existingOccupation = document.querySelector('.profile__occupation');               //Находим элементы, куда будут вставлены значения полей
@@ -15,8 +15,8 @@ const existingOccupation = document.querySelector('.profile__occupation');      
 const popupPlace = document.querySelector('.popup_type_place');                          // Найти popup редактирования карточек
 const addButton = document.querySelector('.profile__add-btn');                           // Найти кнопку открытия редактирования карточек
 const formPlace = document.querySelector('.place-form');                                 // Найти форму popup изменения карточек
-const inputFieldTitle = document.querySelector('.popup__input_field_title');             // Найти поле ввода - название региона в форме добавления карточки
-const inputFieldLink = document.querySelector('.popup__input_field_link');               // Найти поле ввода - ссылки на фото в форме добавления карточки
+const inputTitleFormPlace = document.querySelector('.popup__input_field_title');             // Найти поле ввода - название региона в форме добавления карточки
+const inputLinkFormPlace = document.querySelector('.popup__input_field_link');               // Найти поле ввода - ссылки на фото в форме добавления карточки
 
 //Попап с Картинкой
 const popupImage = document.querySelector('.popup_type_image');                          //Находим Попап с картинкой
@@ -43,7 +43,7 @@ const createCard = (cardData) => {
 //Функция открытия просмотра изображения карточки
 const handleImageClick = (cardImage) => {
   openPopup(popupImage);
-
+  enlargedImage.alt = cardImage.name;
   enlargedImage.src = cardImage.link;
   popupImageCaption.textContent = cardImage.name;
 }
@@ -75,18 +75,21 @@ const handleEscClosePopup = (evt) => {
 };
 
 //По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML. 
-editButton.addEventListener('click', () => {
+editButton.addEventListener('click', () => openPopupProfile());
+
+const openPopupProfile = () => {
   openPopup(popupProfile);
-  nameInput.value = existingUserName.textContent;
-  jobInput.value = existingOccupation.textContent;
+  inputNameFormProfile.value = existingUserName.textContent;
+  inputJobFormProfile.value = existingOccupation.textContent;
   validationFormProfile.clearValidationForm();
-});
+}
 
 //Обработчик формы профиля
 formProfile.addEventListener('submit', (evt) => {
+  console.log(evt);
   evt.preventDefault();
-  existingUserName.textContent = nameInput.value;
-  existingOccupation.textContent = jobInput.value;
+  existingUserName.textContent = inputNameFormProfile.value;
+  existingOccupation.textContent = inputJobFormProfile.value;
   closePopup(popupProfile);
 });
 
@@ -108,19 +111,21 @@ popups.forEach((item) => {
 });
 
 //По кнопке "Добавить Место" открываем попап Места
-addButton.addEventListener('click', () => {
+addButton.addEventListener('click', () => openPopupPlace());
+
+const openPopupPlace = () => {
   openPopup(popupPlace);
   formPlace.reset();
   validationFormPlace.clearValidationForm();
-});
+}
 
 //Обработчик формы новой карточки
 formPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   renderCard({
-    name: inputFieldTitle.value,
-    link: inputFieldLink.value,
+    name: inputTitleFormPlace.value,
+    link: inputLinkFormPlace.value,
   });
 
   evt.target.reset();

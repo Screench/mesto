@@ -32,9 +32,17 @@ class Card {
     return this._cardElement;
   };
 
+  _likeCard() {
+    this._cardElementLike.classList.toggle('element__heart-btn_active');
+  }
+
+  _removeCard() {
+    this._cardElement.remove();
+  }
+
   _setEventListeners() {
-    this._cardElementLike.addEventListener('click', () => this._cardElementLike.classList.toggle('element__heart-btn_active'));
-    this._cardElementDelete.addEventListener('click', () => this._cardElement.remove());
+    this._cardElementLike.addEventListener('click', () => this._likeCard());
+    this._cardElementDelete.addEventListener('click', () => this._removeCard());
     this._cardElementImage.addEventListener('click', () =>
       this._handleImageClick({
         link: this._link,
