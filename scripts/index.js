@@ -75,15 +75,18 @@ const handleEscClosePopup = (evt) => {
 };
 
 //По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML. 
-editButton.addEventListener('click', () => {
+editButton.addEventListener('click', () => openPopupProfile());
+
+const openPopupProfile = () => {
   openPopup(popupProfile);
   inputNameFormProfile.value = existingUserName.textContent;
   inputJobFormProfile.value = existingOccupation.textContent;
   validationFormProfile.clearValidationForm();
-});
+}
 
 //Обработчик формы профиля
 formProfile.addEventListener('submit', (evt) => {
+  console.log(evt);
   evt.preventDefault();
   existingUserName.textContent = inputNameFormProfile.value;
   existingOccupation.textContent = inputJobFormProfile.value;
@@ -108,11 +111,13 @@ popups.forEach((item) => {
 });
 
 //По кнопке "Добавить Место" открываем попап Места
-addButton.addEventListener('click', () => {
+addButton.addEventListener('click', () => openPopupPlace());
+
+const openPopupPlace = () => {
   openPopup(popupPlace);
   formPlace.reset();
   validationFormPlace.clearValidationForm();
-});
+}
 
 //Обработчик формы новой карточки
 formPlace.addEventListener('submit', (evt) => {
