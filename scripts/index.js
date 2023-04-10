@@ -11,7 +11,6 @@ const formProfile = document.querySelector('.profile-form');                    
 const existingUserName = document.querySelector('.profile__title');                      //Находим элементы, куда будут вставлены значения полей
 const existingOccupation = document.querySelector('.profile__occupation');               //Находим элементы, куда будут вставлены значения полей
 
-
 //Попап Нового Места
 const popupPlace = document.querySelector('.popup_type_place');                          // Найти popup редактирования карточек
 const addButton = document.querySelector('.profile__add-btn');                           // Найти кнопку открытия редактирования карточек
@@ -25,7 +24,7 @@ const enlargedImage = document.querySelector('.popup__image');                  
 const popupImageCaption = document.querySelector('.popup__caption');                     //Подпись к картинке попапа
 
 //Кнопки закрытия попапа
-const popupCloseList = document.querySelectorAll('.popup__close-btn');                   // Найти все кнопки закрытия попапов
+const popupCloseButtons = document.querySelectorAll('.popup__close-btn');                   // Найти все кнопки закрытия попапов
 
 //Определяем границы попапов
 const popups = document.querySelectorAll('.popup');                                  
@@ -75,7 +74,7 @@ const handleEscClosePopup = (evt) => {
   };
 };
 
-//Функция открытия Popup редактирования профиля c указанными на странице данными
+//По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML. 
 editButton.addEventListener('click', () => {
   openPopup(popupProfile);
   nameInput.value = existingUserName.textContent;
@@ -91,11 +90,11 @@ formProfile.addEventListener('submit', (evt) => {
   closePopup(popupProfile);
 });
 
-//Закрытие всех Попапов при нажатии на крестик
-popupCloseList.forEach((item) => {
+//Закрытие всех Попапов при нажатии на кнопку
+popupCloseButtons.forEach((item) => {
   item.addEventListener('click', (evt) => {
-    const popupClosestCross = popupAddClosest(evt);
-    closePopup(popupClosestCross);
+    const popupClosestCloseButton = popupAddClosest(evt);
+    closePopup(popupClosestCloseButton);
   });
 });
 
@@ -111,8 +110,7 @@ popups.forEach((item) => {
 //По кнопке "Добавить Место" открываем попап Места
 addButton.addEventListener('click', () => {
   openPopup(popupPlace);
-  inputFieldTitle.value = '';
-  inputFieldLink.value = '';
+  formPlace.reset();
   validationFormPlace.clearValidationForm();
 });
 
