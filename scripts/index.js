@@ -86,7 +86,6 @@ const openPopupProfile = () => {
 
 //Обработчик формы профиля
 formProfile.addEventListener('submit', (evt) => {
-  console.log(evt);
   evt.preventDefault();
   existingUserName.textContent = inputNameFormProfile.value;
   existingOccupation.textContent = inputJobFormProfile.value;
