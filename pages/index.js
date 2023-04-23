@@ -1,10 +1,16 @@
-import {FormValidator} from './FormValidator.js';
-import {Card} from './Card.js';
-import {initialCards, formValidationConfig} from './utils.js';
+import {FormValidator} from '../components/FormValidator.js';
+import {Card} from '../components/Card.js';
+import {initialCards, formValidationConfig} from '../components/utils.js';
+import {Section} from '../components/Section.js';
+import {PopupWithImage} from '../components/PopupWithImage.js';
+import {PopupWithForm} from '../components/PopupWithForm.js';
+import {UserInfo} from '../components/UserInfo.js';
+
+import '../pages/index.css';
 
 //Попап редактирования Профиля
 const popupProfile = document.querySelector('.popup_type_profile');                      //Находим попап Профиля в DOM
-const editButton = document.querySelector('.profile__edit-btn');                         //Кнопка Редактировать Профиль
+const popupOpenEdit = document.querySelector('.profile__edit-btn');                         //Кнопка Редактировать Профиль
 const inputNameFormProfile = document.querySelector('.popup__input_field_name');                    //Находим поле Профиля с именем
 const inputJobFormProfile = document.querySelector('.popup__input_field_job');                      //Находим поле Профиля с родом занятий
 const formProfile = document.querySelector('.profile-form');                             //Находим форму popup изменения профиля
@@ -13,7 +19,7 @@ const existingOccupation = document.querySelector('.profile__occupation');      
 
 //Попап Нового Места
 const popupPlace = document.querySelector('.popup_type_place');                          // Найти popup редактирования карточек
-const addButton = document.querySelector('.profile__add-btn');                           // Найти кнопку открытия редактирования карточек
+const popupOpenAdd = document.querySelector('.profile__add-btn');                           // Найти кнопку открытия редактирования карточек
 const formPlace = document.querySelector('.place-form');                                 // Найти форму popup изменения карточек
 const inputTitleFormPlace = document.querySelector('.popup__input_field_title');             // Найти поле ввода - название региона в форме добавления карточки
 const inputLinkFormPlace = document.querySelector('.popup__input_field_link');               // Найти поле ввода - ссылки на фото в форме добавления карточки
@@ -29,16 +35,36 @@ const popupCloseButtons = document.querySelectorAll('.popup__close-btn');       
 //Определяем границы попапов
 const popups = document.querySelectorAll('.popup');                                  
 
-//Добавление карточек
-const cardsContainer = document.querySelector('.elements');                                //Элемент, куда положим карточки
 
-
+const cardImagePopup = new PopupWithImage(popupPlace);
 
 //Функция создания карточки
 const createCard = (cardData) => {
-  const card = new Card(cardData, '.cardTemplate', handleImageClick);
+  const card = new Card(cardData, '.cardTemplate', () => {
+    cardImagePopup.open(cardData);
+  });
   return card.generateCard();
 };
+
+
+const cardsContainer = new Section({
+  renderer: (card) => {
+    cardsContainer.addItem(createCard(card));
+  }
+}, '.elements');
+
+
+//рендер карточек
+cardsContainer.renderItems(initialCards);
+
+//получаем данные пользователя
+const userInfo = new UserInfo({
+  selectorUserName: '.profile__title';
+  selectorUserOccupation: '.profile__occupation'
+})
+
+
+
 
 //Функция открытия просмотра изображения карточки
 const handleImageClick = (cardImage) => {
@@ -75,7 +101,7 @@ const handleEscClosePopup = (evt) => {
 };
 
 //По кнопке Редактировать открываем попап и загружаем в инпуты текст из HTML. 
-editButton.addEventListener('click', () => openPopupProfile());
+popupOpenEdit.addEventListener('click', () => openPopupProfile());
 
 const openPopupProfile = () => {
   openPopup(popupProfile);
@@ -110,7 +136,7 @@ popups.forEach((item) => {
 });
 
 //По кнопке "Добавить Место" открываем попап Места
-addButton.addEventListener('click', () => openPopupPlace());
+popupOpenAdd.addEventListener('click', () => openPopupPlace());
 
 const openPopupPlace = () => {
   openPopup(popupPlace);

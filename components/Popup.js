@@ -22,7 +22,7 @@ export default class Popup {
   }
 
 
-  _handleOverlayClosePupup = (evt) => {
+  _handleOverlayClose = (evt) => {
     if (evt.target === evt.currentTarget) {
       this.close();
     };
@@ -33,6 +33,6 @@ export default class Popup {
     this._buttonClose.addEventListener('click', () => {
       this.close();
     });
-    this._popup.addEventListener('mousedown', this._handleOverlayClosePupup);
+    this._popup.addEventListener('mousedown', this._handleOverlayClose);
   }
 }
