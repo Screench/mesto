@@ -63,7 +63,7 @@ popupOpenEdit.addEventListener('click', () => {
 
 //создать попап места
 const popupWithFormPlace = new PopupWithForm(popupPlaceSelector, {
-  submitCallback: ( {link, title:name} ) => {
+  submitCallback: ( {link, name} ) => {
     cardsContainer.addItem(createCard({
       name,
       link,
