@@ -1,16 +1,16 @@
-import {FormValidator} from '../components/FormValidator.js';
-import {Card} from '../components/Card.js';
-import {initialCards, formValidationConfig} from '../components/utils.js';
-import {Section} from '../components/Section.js';
-import {PopupWithImage} from '../components/PopupWithImage.js';
-import {PopupWithForm} from '../components/PopupWithForm.js';
-import {UserInfo} from '../components/UserInfo.js';
+import { FormValidator } from '../components/FormValidator.js';
+import { Card } from '../components/Card.js';
+import { initialCards, formValidationConfig } from '../components/utils.js';
+import { Section } from '../components/Section.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { UserInfo } from '../components/UserInfo.js';
 import '../pages/index.css';
 
 const popupImageSelector = '.popup_type_image';
 const popupProfileSelector = '.popup_type_profile';
 const popupPlaceSelector = '.popup_type_place';
-const cardElementsSelector = '.elements'; 
+const cardElementsSelector = '.elements';
 const cardTemplateSelector = '.cardTemplate';
 const userNameSelector = '.profile__title';
 const userOccupationSelector = '.profile__occupation';
@@ -40,6 +40,17 @@ const createCard = (cardData) => {
 //вставить начальные карточки
 cardsContainer.renderItems(initialCards.reverse());
 
+//вставить карточки с сервера
+async function serverCards() {
+  const response = await fetch('https://mesto.nomoreparties.co/v1/cohort-65/cards', {
+    headers: {
+      authorization: '65913fd9-7c89-4468-aff0-c32cf1d9a941'
+    }
+  })
+  const json = await response.json();
+  cardsContainer.renderItems(json);
+}
+serverCards();
 
 //получить данные пользователя
 const userInfo = new UserInfo({
@@ -63,7 +74,7 @@ popupOpenEdit.addEventListener('click', () => {
 
 //создать попап места
 const popupWithFormPlace = new PopupWithForm(popupPlaceSelector, {
-  submitCallback: ( {link, name} ) => {
+  submitCallback: ({ link, name }) => {
     cardsContainer.addItem(createCard({
       name,
       link,
