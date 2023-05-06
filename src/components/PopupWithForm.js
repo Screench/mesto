@@ -6,6 +6,7 @@ export class PopupWithForm extends Popup {
         this._submitCallback = submitCallback;
         this._submitForm = this._popup.querySelector('.popup__form');
         this._inputList = Array.from(this._submitForm.querySelectorAll('.popup__input'));
+        this._buttonSubmit = this._formSubmit.querySelector('.popup__button-submit'); //
     }
 
     //собираем значения полей
@@ -37,6 +38,17 @@ export class PopupWithForm extends Popup {
     close(){
         this._submitForm.reset();
         super.close();
+    }
+
+    renderPreloader(loading, displayText) {
+        if (!this._buttonSubmit) return;
+        if (loading) {
+            this.defaultText = this._buttonSubmit.textContent;
+            this._buttonSubmit.textContent = displayText;
+        } else {
+            this._buttonSubmit.textContent = this._defaultText;
+
+            }
     }
 };
 
