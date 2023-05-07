@@ -13,14 +13,14 @@ class Api {
     return Promise.reject(`Ошибка: ${response.status}`);
   }
 
-  _getServerCards(){
+  getServerCards(){
     return fetch(`${this._url}/cards`, {headers: {authorization: this._authorization}})
     .then(response => this._checkResponse(response))
   }
 
 
 
-  _addNewCard(data){
+  addNewCard(data){
     return fetch(`${this._url}/cards`, {
       method: 'POST', 
       headers: this._headers, 

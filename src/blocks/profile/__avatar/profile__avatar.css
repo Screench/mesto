@@ -4,7 +4,11 @@
   margin-right: 30px;
   border-radius: 50%;
   object-fit: cover;
+  transition: opacity .4s ease;
+  background: url(../../../images/pen.svg) #000 no-repeat 50%;
+  
 }
+
 
 @media (max-width: 768px) {
   .profile__avatar {

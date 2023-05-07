@@ -4,7 +4,7 @@ export class PopupWithRemoval extends Popup {
   constructor (selectorPopup, {submitCallback}) {
     super(selectorPopup);
     this._submitCallback = submitCallback;
-    this._buttonSubmit = this._popup.querySelector('.popup__button-submit');
+    this._buttonSubmit = this._popup.querySelector('.popup__submit-btn');
 
   }
 

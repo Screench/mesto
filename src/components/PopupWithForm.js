@@ -1,12 +1,12 @@
 import Popup from './Popup.js';
 
 export class PopupWithForm extends Popup {
-    constructor(popupSelector, {submitCallback}){
-        super(popupSelector);
-        this._submitCallback = submitCallback;
-        this._submitForm = this._popup.querySelector('.popup__form');
-        this._inputList = Array.from(this._submitForm.querySelectorAll('.popup__input'));
-        this._buttonSubmit = this._formSubmit.querySelector('.popup__button-submit'); //
+    constructor(selectorPopup, { submitCallback }) {
+      super(selectorPopup);
+      this._submitCallback = submitCallback;
+      this._formSubmit = this._popup.querySelector('.popup__form');
+      this._inputList = Array.from(this._formSubmit.querySelectorAll('.popup__input'));
+      this._buttonSubmit = this._formSubmit.querySelector('.popup__submit-btn');
     }
 
     //собираем значения полей
