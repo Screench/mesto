@@ -1,11 +1,11 @@
-class Api {
-  constructor(conf) {
-    this._url = conf.url;
-    this._headers = conf.headers;
-    this._authorization = conf.headers['authorization'];
-
+export class Api {
+  constructor(config) {
+    this._authorization = config.headers['authorization'];
+    this._url = config.url;
+    this._headers = config.headers;
   }
 
+  
   _checkResponse(response) {
     if (response.ok) {
       return response.json();
@@ -13,85 +13,87 @@ class Api {
     return Promise.reject(`Ошибка: ${response.status}`);
   }
 
-  getServerCards(){
-    return fetch(`${this._url}/cards`, {headers: {authorization: this._authorization}})
-    .then(response => this._checkResponse(response))
-  }
 
-
-
-  addNewCard(data){
-    return fetch(`${this._url}/cards`, {
-      method: 'POST', 
-      headers: this._headers, 
-      body: JSON.stringify({
-        name: data.name,
-        link: data.link,
-      }),
-    })
-    .then(response => this._checkResponse(response))
-  };
-
-  getUserInfoApi() {
-    return fetch(`${this._url}/users/me`, {
+  async getUserInfoApi() {
+    const response = await fetch(`${this._url}/users/me`, {
       headers: {
         authorization: this._authorization
       },
-
-    })
-    .then(response => this._checkResponse(response));
+    });
+    return this._checkResponse(response);
   }
 
-  setUserInfoApi(data) {
-    return fetch(`${this._url}/users/me`, {
+
+  async setUserInfoApi(data) {
+    const response = await fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         about: data.about,
       }),
-    })
-    .then(response => this._checkResponse(response))
+    });
+    return this._checkResponse(response);
   }
 
-  setUserAvatar(data){
-    return fetch(`${this._url}/users/me/avatar`, {
+
+  async setUserAvatar(data) {
+    const response = await fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         avatar: data.avatar,
       }),
-
-    })
-    .then (response => this._checkResponse(response))
+    });
+    return this._checkResponse(response);
   }
 
-  deleteCard(cardId) {
-    return fetch(`${this._url}/cards/${cardId}/likes`, {
-    method: 'DELETE',
-    headers: this._headers,
-    })
-    .then(response => this._checkResponse(response))
+
+  async getServerCards() {
+    const response = await fetch(`${this._url}/cards`, {
+      headers: {
+        authorization: this._authorization
+      },
+    });
+    return this._checkResponse(response);
   }
 
-  putCardLike(cardId) {
-    return fetch(`${this._url}/cards/${cardId}/likes`, {
-      method: 'PUT',
+
+  async handleAddNewCard(data) {
+    const response = await fetch(`${this._url}/cards`, {
+      method: 'POST',
       headers: this._headers,
-    })
-    .then(response => this._checkResponse(response))
-  }
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link,
+      }),
+    });
+    return this._checkResponse(response);
+  };
 
-  deleteCardLike(cardId) {
-    return fetch(`${this._url}/cards/${cardId}/likes`, {
+
+  async deleteCard(cardId) {
+    const response = await fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers,
-    })
-    .then (response => this._checkResponse(response))
+    });
+    return this._checkResponse(response);
   }
 
+  async setCardLike(cardId) {
+    const response = await fetch(`${this._url}/cards/${cardId}/likes`, {
+      method: 'PUT',
+      headers: this._headers,
+    });
+    return this._checkResponse(response);
+  }
 
+  async removeCardLike(cardId) {
+    const response = await fetch(`${this._url}/cards/${cardId}/likes`, {
+      method: 'DELETE',
+      headers: this._headers,
+    });
+    return this._checkResponse(response);
+  }
 
 }
-
-export {Api}

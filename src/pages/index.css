@@ -28,8 +28,8 @@
 @import url(../blocks/element/__heart-btn/element__heart-btn.css);
 @import url(../blocks/element/__heart-btn/_active/element__heart-btn_active.css);
 @import url(../blocks/element/__trash-btn/element__trash-btn.css);
-@import url(../blocks/element/__like-group/element__like-group.css);
-@import url(../blocks/element/__span/element__span.css);
+@import url(../blocks/element/__likes/element__likes.css);
+@import url(../blocks/element/__counter/element__counter.css);
 
 /* FOOTER */
 @import url(../blocks/footer/footer.css);

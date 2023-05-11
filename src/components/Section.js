@@ -10,12 +10,12 @@ export class Section{
     });
   }
 
-  addItem(element){
-    this._container.append(element);//
+  appendItem(item){
+    this._container.append(item);
   }
 
-  prependItem(element) {
-    this._container.prepend(element);//
+  prependItem(item) {
+    this._container.prepend(item);
   }
 }
 

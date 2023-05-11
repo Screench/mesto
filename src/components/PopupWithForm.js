@@ -1,16 +1,16 @@
 import Popup from './Popup.js';
 
 export class PopupWithForm extends Popup {
-    constructor(selectorPopup, { submitCallback }) {
-      super(selectorPopup);
-      this._submitCallback = submitCallback;
-      this._formSubmit = this._popup.querySelector('.popup__form');
-      this._inputList = Array.from(this._formSubmit.querySelectorAll('.popup__input'));
-      this._buttonSubmit = this._formSubmit.querySelector('.popup__submit-btn');
+    constructor(popupSelector, { submitCallback }) {
+        super(popupSelector);
+        this._submitCallback = submitCallback;
+        this._submitForm = this._popup.querySelector('.popup__form');
+        this._inputList = Array.from(this._submitForm.querySelectorAll('.popup__input'));
+        this._submitButton = this._submitForm.querySelector('.popup__submit-btn');
     }
 
     //собираем значения полей
-    _getInputValues(){
+    _getInputValues() {
         this._inputValues = {};
         this._inputList.forEach((input) => {
             this._inputValues[input.name] = input.value;
@@ -26,7 +26,7 @@ export class PopupWithForm extends Popup {
         });
     }
 
-    setEventListeners(){
+    setEventListeners() {
         super.setEventListeners();
         this._submitForm.addEventListener('submit', (evt) => {
             evt.preventDefault();
@@ -35,20 +35,20 @@ export class PopupWithForm extends Popup {
         })
     }
 
-    close(){
+    close() {
         this._submitForm.reset();
         super.close();
     }
 
-    renderPreloader(loading, displayText) {
-        if (!this._buttonSubmit) return;
-        if (loading) {
-            this.defaultText = this._buttonSubmit.textContent;
-            this._buttonSubmit.textContent = displayText;
+    renderPreloader(isLoading, buttonText) {
+        if (!this._submitButton) return;
+        if (isLoading) {
+            this.defaultText = this._submitButton.textContent;
+            this._submitButton.textContent = buttonText;
         } else {
-            this._buttonSubmit.textContent = this._defaultText;
+            this._submitButton.textContent = this.defaultText;
 
-            }
+        }
     }
 };
 

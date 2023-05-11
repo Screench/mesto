@@ -25,7 +25,7 @@
     "core-js": "^3.30.2"
   },
   "name": "mesto",
-  "description": "Проектная работа №8 Яндекс Практикум",
+  "description": "Проектная работа №9 Яндекс Практикум",
   "version": "1.0.0",
   "main": "babel.config.js",
   "author": "",
