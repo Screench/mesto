@@ -46,7 +46,7 @@ Promise.all([api.getUserInfoApi(), api.getServerCards()])
     userInfo.setUserAvatar(resUser);
     cardsContainer.renderItems(resCard, currentUserID)
   })
-  .catch((err) => console.log(err));
+  .catch((err) => window.alert(`Ошибка! ${err}`));
 
 
 //создать карточку
@@ -64,7 +64,7 @@ const createCard = (data, user) => {
     .then((res) => {
       card.renderCardLike(res);
     })
-    .catch((err) => console.log(err))
+    .catch((err) => window.alert(`Ошибка! ${err}`));
   },
 
   handleCardRemoveLike: (cardId) => {
@@ -72,7 +72,7 @@ const createCard = (data, user) => {
     .then((res) => {
       card.renderCardLike(res)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => window.alert(`Ошибка! ${err}`));
   }
 
 
@@ -102,7 +102,7 @@ const popupWithFormProfile = new PopupWithForm(popupProfileSelector, {
         userInfo.setUserInfo(res);
         popupWithFormProfile.close();
       })
-      .catch((err) => console.log(err))
+      .catch((err) => window.alert(`Ошибка! ${err}`))
       .finally(() => {
         popupWithFormProfile.renderPreloader(false);
       })
@@ -125,7 +125,7 @@ const popupWithFormPlace = new PopupWithForm(popupPlaceSelector, {
         cardsContainer.prependItem(createCard(newCard, currentUserID));
         popupWithFormPlace.close();
       })
-      .catch((err) => console.log(err))
+      .catch((err) => window.alert(`Ошибка! ${err}`))
       .finally(() => {
         popupWithFormPlace.renderPreloader(false);
       })
@@ -150,7 +150,7 @@ const popupFormAvatar = new PopupWithForm(popupAvatarSelector, {
       popupFormAvatar.close();
 
     })
-    .catch((err) => console.log(err))
+    .catch((err) => window.alert(`Ошибка! ${err}`))
     .finally(() => {
       popupFormAvatar.renderPreloader(false);
     })
@@ -173,7 +173,7 @@ const popupWithConfirmation = new PopupWithConfirmation(popupConfirmSelector, {
       card.deleteCard();
       popupWithConfirmation.close();
     })
-    .catch((err) => console.log(err))
+    .catch((err) => window.alert(`Ошибка! ${err}`))
     .finally(() => {
       popupWithConfirmation.renderPreloader(false);
     })
